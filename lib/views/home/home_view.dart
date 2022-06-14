@@ -46,6 +46,27 @@ class Home extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 4),
+                        if (post.pinned)
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Transform.rotate(
+                              angle: 0.5,
+                              child: Icon(
+                                Icons.push_pin,
+                                size: 16,
+                                color: AppColors.mainBlue,
+                              ),
+                            ),
+                          ),
+                        Text(
+                          "Posted by ${post.author} ${DateTime.now().difference(post.created).inHours} hours ago",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(height: 8),
                         Text(
                           post.title,
                           style: TextStyle(fontWeight: FontWeight.bold),
