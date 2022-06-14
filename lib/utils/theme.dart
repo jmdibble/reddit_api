@@ -7,7 +7,7 @@ ThemeData theme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: Colors.black,
   ),
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: AppColors.bgGrey,
   textTheme:
       GoogleFonts.montserratTextTheme().apply(bodyColor: AppColors.mainBlue),
   primaryTextTheme:
