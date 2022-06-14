@@ -7,9 +7,14 @@ class RedditService {
   List<RedditPost> posts = [];
 
   Future<void> getRedditData() async {
-    final response =
-        await router.get(url: "https://www.reddit.com/r/FlutterDev.json");
+    try {
+      final response =
+          await router.get(url: "https://www.reddit.com/r/FlutterDev.json");
 
-    posts = RedditPost.listFromJson(response["data"]["children"]);
+      posts = RedditPost.listFromJson(response["data"]["children"]);
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 }

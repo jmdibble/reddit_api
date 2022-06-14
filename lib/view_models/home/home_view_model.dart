@@ -7,14 +7,26 @@ class HomeViewModel extends BaseViewModel {
   RedditService get _redditService => GetIt.I.get<RedditService>();
 
   List<RedditPost> get posts => _redditService.posts;
-  bool pageLoading = false;
+  PageState pageState = PageState.loading;
 
   Future<void> getRedditData() async {
-    pageLoading = true;
-    notifyListeners();
-
-    await _redditService.getRedditData();
-    pageLoading = false;
-    notifyListeners();
+    try {
+      await _redditService.getRedditData();
+      pageState = PageState.completed;
+      notifyListeners();
+    } catch (e) {
+      pageState = PageState.error;
+      notifyListeners();
+    }
   }
+
+  Future<void> refresh() async {
+    await getRedditData();
+  }
+}
+
+enum PageState {
+  loading,
+  completed,
+  error,
 }

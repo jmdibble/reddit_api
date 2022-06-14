@@ -15,8 +15,15 @@ class Home extends StatelessWidget {
       body: ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => HomeViewModel(),
         onModelReady: (m) async => await m.getRedditData(),
-        builder: (context, m, child) =>
-            m.pageLoading ? _buildLoading() : _buildBody(context, m),
+        builder: (context, m, child) {
+          if (m.pageState == PageState.loading) {
+            return _buildLoading();
+          } else if (m.pageState == PageState.completed) {
+            return _buildBody(context, m);
+          } else {
+            return _buildError(m);
+          }
+        },
       ),
     );
   }
@@ -117,5 +124,29 @@ class Home extends StatelessWidget {
 
   Widget _buildLoading() {
     return Center(child: CircularProgressIndicator());
+  }
+
+  Widget _buildError(HomeViewModel m) {
+    return Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Something went wrong.",
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                await m.refresh();
+              },
+              child: Text("Try again"),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
