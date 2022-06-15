@@ -41,8 +41,3 @@ class Router {
     }
   }
 }
-
-enum ApiServiceProvider {
-  activeDirectory,
-  stripe,
-}
